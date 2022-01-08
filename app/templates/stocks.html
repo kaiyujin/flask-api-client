@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>OpenAPI test tool</title>
+</head>
+<body>
+<h1 class="text-3xl font-bold underline"><a href="/">Open API test tool</a></h1>
+<h2 class="text-xl font-bold p-3">在庫一覧 予約フォーム</h2>
+<form name="main" method="post" action="/reserve">
+    <div class="flex">
+        <div class="flex-none m-2 w-8">
+            <p class="text-red-700">姓　</p>
+        </div>
+        <div class="flex-none m-2">
+            <input name="lastName" type="text" placeholder="" value=""
+                   class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline input-lg text-xl"/>
+        </div>
+        <div class="flex-none m-2 w-8">
+            <span class="label-text text-red-700">名　</span>
+        </div>
+        <div class="flex-none m-2">
+            <input name="firstName" type="text" placeholder="" value=""
+                   class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline input-lg text-xl"/>
+        </div>
+        <div class="flex-none m-2 w-8">
+            <span class="label-text">Mail</span>
+        </div>
+        <div class="flex-none m-2">
+            <input name="email" type="text" placeholder="" value=""
+                   class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline input-lg text-xl"/>
+        </div>
+        <div class="flex-none m-2 w-8">
+            <span class="label-text">Tel</span>
+        </div>
+        <div class="flex-none m-2">
+            <input name="phoneNumber" type="text" placeholder="" value=""
+                   class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline input-lg text-xl"/>
+        </div>
+    </div>
+    <div class="flex">
+        <div class="flex-none m-2 w-8">
+            <span class="label-text text-red-700">価格1</span>
+        </div>
+        <div class="flex-none m-2">
+            <input name="price1" type="text" placeholder="" value=""
+                   class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline input-lg text-xl"/>
+        </div>
+        <div class="flex-initial m-2 w-8">
+            <span class="label-text text-red-700">数量1</span>
+        </div>
+        <div class="flex-none m-2">
+            <input name="quantity1" type="text" placeholder="" value="1"
+                   class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline input-lg text-xl"/>
+        </div>
+    </div>
+    <div class="flex">
+        <div class="flex-none m-2 w-8">
+            <span class="label-text">価格2</span>
+        </div>
+        <div class="flex-none m-2">
+            <input name="price2" type="text" placeholder="" value=""
+                   class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline input-lg text-xl"/>
+        </div>
+        <div class="flex-none m-2 w-8">
+            <span class="label-text">数量2</span>
+        </div>
+        <div class="flex-none m-2">
+            <input name="quantity2" type="text" placeholder="" value=""
+                   class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline input-lg text-xl"/>
+        </div>
+    </div>
+    <input type="hidden" id="externalProductId" name="externalProductId" value="">
+    <input type="hidden" id="useDate" name="useDate" value="">
+    <input type="hidden" id="useTime" name="useTime" value="">
+</form>
+{% for c in data["content"][0]["stocks"] %}
+    <p class="pb-1"><a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
+                       href="#" onclick="reserve('{{ c['stockUnit'] }}')">この在庫を予約</a> {{ c }}</p>
+{% endfor %}
+<div class="p-3">
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onclick="location.href='/shops'">店舗一覧へ戻る
+    </button>
+</div>
+<hr class="p-2">
+<p>Response Json</p>
+<div>
+    <pre id="pre"/>
+</div>
+<script>
+    function reserve(stockUnit) {
+        const params = new URL(window.location.href).searchParams;
+        document.getElementById("externalProductId").value = params.get('id');
+        const stockUnitArray = stockUnit.split(' ');
+        document.getElementById("useDate").value = stockUnitArray[0]
+        console.log(stockUnitArray)
+        if (stockUnitArray.length > 1) {
+            document.getElementById("useTime").value = stockUnitArray[1]
+        }
+        document.main.submit();
+    }
+
+    {% autoescape false %}
+    const data = JSON.stringify({{ data_text }}, null, '  ');
+    document.getElementById("pre").textContent = data
+    {% endautoescape %}
+</script>
+</body>
+</html>

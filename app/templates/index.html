@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>OpenAPI test tool</title>
+</head>
+<body>
+<h1 class="text-3xl font-bold underline"><a href="/">Open API test tool</a></h1>
+<form method="post" action="/auth">
+    <div class="flex flex-row">
+        <div class="basis-1/2 m-2">
+            <label class="label">
+                <span class="label-text">Domain</span>
+            </label>
+            <input type="text" placeholder="" value="{{ data.domain }}" name="domain"
+                   class="w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline input-lg text-xl"/>
+        </div>
+    </div>
+    <div class="flex flex-row">
+        <div class="basis-1/2 m-2">
+            <label class="label">
+                <span class="label-text">X-API-Key</span>
+            </label>
+            <input type="text" placeholder="" value="{{ data.apiKey }}" name="apiKey"
+                   class="w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline input-lg text-xl"/>
+        </div>
+    </div>
+    <div class="flex flex-row">
+        <div class="basis-1/2 m-2">
+            <label class="label">
+                <span class="label-text">Client ID</span>
+            </label>
+            <input type="text" placeholder="" value="{{ data.clientId }}" name="clientId"
+                   class="w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline input-lg text-xl"/>
+        </div>
+    </div>
+    <div class="flex flex-row">
+        <div class="basis-1/2 m-2">
+            <label class="label">
+                <span class="label-text">Client Secret</span>
+            </label>
+            <input type="text" placeholder="" value="{{ data.clientSecret }}" name="clientSecret"
+                   class="w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline input-lg text-xl"/>
+        </div>
+    </div>
+    <div class="flex flex-row">
+        <div class="basis-1/2 m-2 text-right">
+            <input type="submit"
+                   class="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                   value="認証"/>
+        </div>
+    </div>
+</form>
+</div>
+</body>
+</html>

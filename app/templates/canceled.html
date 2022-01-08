@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>OpenAPI test tool</title>
+</head>
+<body>
+<h1 class="text-3xl font-bold underline"><a href="/">Open API test tool</a></h1>
+<h2 class="text-xl font-bold p-3">キャンセル完了</h2>
+<div class="p-3">
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onclick="location.href='/shops'">店舗一覧へ戻る
+    </button>
+</div>
+<hr class="p-2">
+<p>Response Json</p>
+<div>
+    <pre id="pre"/>
+</div>
+<script>
+    {% autoescape false %}
+    const data = JSON.stringify({{ data_text }}, null, '  ');
+    document.getElementById("pre").textContent = data
+    {% endautoescape %}
+</script>
+</body>
+</html>

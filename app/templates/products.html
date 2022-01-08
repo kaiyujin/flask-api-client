@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>OpenAPI test tool</title>
+</head>
+<body>
+<h1 class="text-3xl font-bold underline"><a href="/">Open API test tool</a></h1>
+<h2 class="text-xl font-bold p-3">商品一覧</h2>
+<div class="flex">
+    <div class="flex-none m-2">
+        <label class="label">
+            <span class="label-text">在庫検索期間 From-To</span>
+        </label>
+        <input id="from" type="text" placeholder="" value="{{ data.domain }}" name="domain"
+               class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline input-lg text-xl"/>
+    </div>
+    <div class="flex-initial w-64 m-2">
+        <input id="to" type="text" placeholder="" value="{{ data.domain }}" name="domain"
+               class="shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline input-lg text-xl"/>
+    </div>
+</div>
+{% for c in data["content"] %}
+    <p class="pb-1"><a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600" href="#"
+                       onclick="toStocks('{{ c["externalProductId"] }}')">この店舗の在庫を取得</a> {{ c }}</p>
+{% endfor %}
+<div class="p-3">
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onclick="location.href='/shops'">戻る
+    </button>
+</div>
+<hr class="p-2">
+<p>Response Json</p>
+<div>
+    <pre id="pre"/>
+</div>
+<script>
+    function toStocks(id) {
+        const from = document.getElementById("from").value;
+        const to = document.getElementById("to").value;
+        window.location.href = "/stocks?id=" + id + "&stockPeriodFrom=" + from + "&stockPeriodTo=" + to;
+    }
+
+    function formatDate(dt) {
+        const y = dt.getFullYear();
+        const m = ('00' + (dt.getMonth() + 1)).slice(-2);
+        const d = ('00' + dt.getDate()).slice(-2);
+        return (y + '-' + m + '-' + d);
+    }
+
+    {% autoescape false %}
+    const data = JSON.stringify({{ data_text }}, null, '  ');
+    document.getElementById("pre").textContent = data;
+    {% endautoescape %}
+    const from = new Date();
+    document.getElementById("from").value = formatDate(from);
+    const to = new Date(from.getFullYear(), from.getMonth(), from.getDate() + 6);
+    document.getElementById("to").value = formatDate(to);
+</script>
+</body>
+</html>

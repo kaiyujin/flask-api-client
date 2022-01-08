@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>OpenAPI test tool</title>
+</head>
+<body>
+<h1 class="text-3xl font-bold underline"><a href="/">Open API test tool</a></h1>
+<h2 class="text-xl font-bold p-3">店舗一覧</h2>
+{% for c in data["content"] %}
+    <p class="pb-1"><a class="underline text-blue-600 hover:text-blue-800 visited:text-purple-600"
+                       href="/products?id={{ c["externalShopId"] }}">この店舗の商品を取得</a> {{ c }}</p>
+{% endfor %}
+<hr class="p-2">
+<p>Response Json</p>
+<div>
+    <pre id="pre"/>
+</div>
+<script>
+    {% autoescape false %}
+    const data = JSON.stringify({{ data_text }}, null, '  ');
+    document.getElementById("pre").textContent = data
+    {% endautoescape %}
+</script>
+</body>
+</html>
